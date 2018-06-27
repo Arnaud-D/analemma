@@ -76,7 +76,7 @@ def multiple_analemmas():
 
 
 def main():
-    print("This is Analemma v0.3.0")
+    print("This is Analemma v0.4.0")
     pathfinder_analemma()
     paris_analemma()
     tropic_analemma()
