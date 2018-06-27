@@ -2,7 +2,7 @@ import datetime as dt
 import conversions as cv
 import numpy as np
 
-days_per_year = 365
+days_per_year = int(668.59 * 1.027)
 one_day = 1
 
 
@@ -17,7 +17,7 @@ def time_coordinate(date):
 def sun_horizontal_coordinates(latitude, longitude, time):
     """Return the position of the sun in the horizontal coordinates system."""
     sun_latitude, sun_longitude = sun_ecliptic_coordinates(time)
-    obliquity = earth_obliquity(time)
+    obliquity = mars_obliquity(time)
     declination, right_ascension = ecliptic2equatorial(sun_latitude, sun_longitude, obliquity)
     teq = equation_time(time)
     hour_angle = np.pi - (((time - 0.5) * 24) * cv.deg2rad(15) + longitude + teq)
@@ -27,35 +27,35 @@ def sun_horizontal_coordinates(latitude, longitude, time):
 
 def equation_time(time):
     sun_latitude, sun_longitude = sun_ecliptic_coordinates(time)
-    obliquity = earth_obliquity(time)
+    obliquity = mars_obliquity(time)
     _, right_ascension = ecliptic2equatorial(sun_latitude, sun_longitude, obliquity)
     teq = (sun_mean_longitude(time) - right_ascension) % (2 * np.pi)
     return teq
 
 
 def sun_mean_longitude(time):
-    a = cv.deg2rad(0.98564736)
-    b = cv.deg2rad(280.459)
+    a = cv.deg2rad(0.52403840)
+    b = cv.deg2rad(270.3863)
     mean_longitude = (a * time + b) % (2 * np.pi)
     return mean_longitude
 
 
 def sun_ecliptic_coordinates(time):
     """Return the position of the sun in the ecliptic coordinate system."""
-    latitude = 0
-    a = cv.deg2rad(0.98560028)
-    b = cv.deg2rad(357.529)
+    latitude = cv.deg2rad(1.85)
+    a = cv.deg2rad(0.52402075)
+    b = cv.deg2rad(19.38)
     mean_anomaly = (a * time + b) % (2 * np.pi)
-    a = cv.deg2rad(1.915)
-    b = cv.deg2rad(0.020)
+    a = cv.deg2rad(10.691)
+    b = cv.deg2rad(0.623)
     mean_longitude = sun_mean_longitude(time)
     longitude = (mean_longitude + a * np.sin(mean_anomaly) + b * np.sin(2 * mean_anomaly)) % (2 * np.pi)
     return latitude, longitude
 
 
-def earth_obliquity(time):
-    a = cv.deg2rad(0.00000036)
-    b = cv.deg2rad(23.439)
+def mars_obliquity(time):
+    a = cv.deg2rad(0)
+    b = cv.deg2rad(25.19)
     obliquity = (a * time + b) % (2 * np.pi)
     return obliquity
 
