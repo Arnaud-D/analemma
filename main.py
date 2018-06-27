@@ -1,15 +1,15 @@
 import analemma as an
 import conversions as cv
 import matplotlib.pyplot as plt
-import marsposition as mp
-import earthposition as ep
+import points_of_view as pov
 
 
 def paris_analemma():
     latitude = 48.8589507
     longitude = 2.2770205
     hour_of_the_day = 10
-    elevations, azimuths = an.analemma(latitude, longitude, hour_of_the_day, ep)
+    earth_point_of_view = pov.EarthPointOfView()
+    elevations, azimuths = an.analemma(latitude, longitude, hour_of_the_day, earth_point_of_view)
     hour, minute, second = cv.hour2hms(hour_of_the_day)
     title = "Analemme à Paris à {:02.0f}h{:02.0f}".format(hour, minute, second)
     an.plot(elevations, azimuths, title)
@@ -19,7 +19,8 @@ def tropic_analemma():
     latitude = 23.439
     longitude = 0
     hour_of_the_day = 12
-    elevations, azimuths = an.analemma(latitude, longitude, hour_of_the_day, ep)
+    earth_point_of_view = pov.EarthPointOfView()
+    elevations, azimuths = an.analemma(latitude, longitude, hour_of_the_day, earth_point_of_view)
     hour, minute, second = cv.hour2hms(hour_of_the_day)
     title = "Analemme au tropique du Cancer à {:02.0f}h{:02.0f}".format(hour, minute, second)
     an.plot(elevations, azimuths, title)
@@ -29,7 +30,8 @@ def pole_analemma():
     latitude = 90
     longitude = 0
     hour_of_the_day = 12
-    elevations, azimuths = an.analemma(latitude, longitude, hour_of_the_day, ep)
+    earth_point_of_view = pov.EarthPointOfView()
+    elevations, azimuths = an.analemma(latitude, longitude, hour_of_the_day, earth_point_of_view)
     hour, minute, second = cv.hour2hms(hour_of_the_day)
     title = "Analemme au pôle Nord à {:02.0f}h{:02.0f}".format(hour, minute, second)
     an.plot(elevations, azimuths, title)
@@ -40,7 +42,8 @@ def pathfinder_analemma():
     longitude = 33.25
     # hour_of_the_day = 9 + 50/60
     hour_of_the_day = 14.5
-    elevations, azimuths = an.analemma(latitude, longitude, hour_of_the_day, mp)
+    point_of_view = pov.MarsPointOfView()
+    elevations, azimuths = an.analemma(latitude, longitude, hour_of_the_day, point_of_view)
     hour, minute, second = cv.hour2hms(hour_of_the_day)
     title = "Analemme à proximité de Pathfinder {:02.0f}h{:02.0f}".format(hour, minute, second)
     an.plot(elevations, azimuths, title)
@@ -52,8 +55,9 @@ def multiple_analemmas():
     hour_of_the_day = [i for i in range(1, 24)]
     elevations_seq = []
     azimuths_seq = []
+    earth_point_of_view = pov.EarthPointOfView()
     for h in hour_of_the_day:
-        elevations, azimuths = an.analemma(latitude, longitude, h, ep)
+        elevations, azimuths = an.analemma(latitude, longitude, h, earth_point_of_view)
         elevations_seq.append(elevations)
         azimuths_seq.append(azimuths)
 
