@@ -18,9 +18,9 @@ def analemma_rad(latitude, longitude, hour_of_the_day, point_of_view):
     hour, minute, second = cv.hour2hms(hour_of_the_day)
     date = dt.datetime(2018, 1, 1, hour, minute, second)
     time = point_of_view.time_coordinate(date)
-    one_day = point_of_view.one_day
+    one_day = point_of_view.one_day()
     position = point_of_view.trajectory_horizontal(latitude, longitude)
-    for d in range(point_of_view.days_per_year + 1):
+    for d in range(point_of_view.days_per_year() + 1):
         el, az = position(time)
         elevations.append(el)
         azimuths.append(az)
