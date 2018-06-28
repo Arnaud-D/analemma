@@ -120,7 +120,7 @@ def greenwhich_analemma():
 
 
 def main():
-    print("This is Analemma v0.4.0")
+    print("This is Analemma v0.5.0")
     sv_earth_analemma()
     v_earth_analemma()
     simple_earth_analemma()
