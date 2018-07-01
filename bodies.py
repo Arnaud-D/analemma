@@ -175,27 +175,9 @@ class SunFromMars(SunFromSimplePlanet):
         solar_day_duration = 1
         obliquity = cv.deg2rad(25.19)
         mean_anomaly_speed = revolution_speed
-        initial_mean_anomaly = cv.deg2rad(357.529)
-        k1 = 0
-        k2 = 0
+        initial_mean_anomaly = cv.deg2rad(19.38)
+        k1 = cv.deg2rad(10.691)
+        k2 = cv.deg2rad(0.623)
         self.days_per_year = int(668 * 1.027) + 1
         super().__init__(revolution_speed, initial_longitude, solar_day_duration,
                          obliquity, mean_anomaly_speed, initial_mean_anomaly, k1, k2)
-
-    def equatorial_coordinates(self, time):
-        sun_latitude, sun_longitude = self.ecliptic_coordinates(time)
-        obliquity = self.obliquity(time)
-        declination, right_ascension = self.ecliptic2equatorial(sun_latitude, sun_longitude, obliquity)
-        return declination, right_ascension
-
-    def ecliptic_coordinates(self, time):
-        """Return the position of the sun in the ecliptic coordinate system."""
-        latitude = cv.deg2rad(1.85)
-        a = cv.deg2rad(0.52402075)
-        b = cv.deg2rad(19.38)
-        mean_anomaly = (a * time + b) % (2 * np.pi)
-        a = cv.deg2rad(10.691)
-        b = cv.deg2rad(0.623)
-        mean_longitude = self.mean_longitude(time)
-        longitude = (mean_longitude + a * np.sin(mean_anomaly) + b * np.sin(2 * mean_anomaly)) % (2 * np.pi)
-        return latitude, longitude
