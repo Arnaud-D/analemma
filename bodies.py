@@ -117,9 +117,9 @@ class SunFromCircularEarth(SunFromSimplePlanet):
         revolution_speed = cv.deg2rad(0.98564736)
         initial_longitude = cv.deg2rad(280.459)
         solar_day_duration = 1
-        obliquity = 23.439
+        obliquity = cv.deg2rad(23.439)
         mean_anomaly_speed = revolution_speed
-        initial_mean_anomaly = cv.deg2rad(357.529)
+        initial_mean_anomaly = 0
         k1 = 0
         k2 = 0
         super().__init__(revolution_speed, initial_longitude, solar_day_duration,
@@ -131,7 +131,7 @@ class SunFromEllipticEarth(SunFromSimplePlanet):
         revolution_speed = cv.deg2rad(0.98564736)
         initial_longitude = cv.deg2rad(280.459)
         solar_day_duration = 1
-        obliquity = 23.439
+        obliquity = cv.rad2deg(23.439)
         mean_anomaly_speed = revolution_speed
         initial_mean_anomaly = cv.deg2rad(357.529)
         k1 = cv.deg2rad(1.915)
