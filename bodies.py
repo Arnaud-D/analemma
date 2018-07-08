@@ -18,7 +18,7 @@ class SunFromPlanet(BodyFromPov):
     def __init__(self, revolution_speed, initial_longitude, solar_day_duration):
         self.revolution_speed = revolution_speed
         self.initial_longitude = initial_longitude
-        self.one_day = solar_day_duration
+        self.solar_day_duration = solar_day_duration
         self.days_per_revolution = int(np.floor(1 / cv.rad2deg(self.revolution_speed) * 360) + 1)
 
     def horizontal_coordinates(self, latitude, longitude, time):
@@ -27,7 +27,8 @@ class SunFromPlanet(BodyFromPov):
         obliquity = self.obliquity(time)
         declination, right_ascension = self.ecliptic2equatorial(sun_latitude, sun_longitude, obliquity)
         teq = self.equation_time(time)
-        hour_angle = np.pi - (((time - 0.5) * 24) * cv.deg2rad(15) + teq)
+        local_days = time / self.solar_day_duration
+        hour_angle = np.pi - (cv.hours2rad(local_days * 24 - 12)) + teq
         elevation, azimuth = self.equatorial2horizontal(latitude, longitude, declination, hour_angle)
         return elevation, azimuth
 
@@ -172,12 +173,12 @@ class SunFromMars(SunFromSimplePlanet):
     def __init__(self):
         revolution_speed = cv.deg2rad(0.52403840)
         initial_longitude = cv.deg2rad(270.3863)
-        solar_day_duration = 1
+        solar_day_duration = 1 * 1.027491252
         obliquity = cv.deg2rad(25.19)
         mean_anomaly_speed = revolution_speed
         initial_mean_anomaly = cv.deg2rad(19.38)
         k1 = cv.deg2rad(10.691)
         k2 = cv.deg2rad(0.623)
-        self.days_per_year = int(668 * 1.027) + 1
+        self.days_per_revolution = 669
         super().__init__(revolution_speed, initial_longitude, solar_day_duration,
                          obliquity, mean_anomaly_speed, initial_mean_anomaly, k1, k2)

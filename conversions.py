@@ -25,3 +25,7 @@ def hour2hms(h):
 
 def seconds2days(s):
     return s / seconds_per_day
+
+
+def hours2rad(h):
+    return h / 24 * 2 * np.pi

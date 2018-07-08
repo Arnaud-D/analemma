@@ -56,27 +56,26 @@ def analemma_list(celestial_body, latitude, longitude, hours_of_the_day):
     return elevations_list, azimuths_list
 
 
-def analemma(point_of_view, latitude, longitude, hour_of_the_day):
+def analemma(celestial_body, latitude, longitude, hour_of_the_day):
     latitude_rad = cv.deg2rad(latitude)
     longitude_rad = cv.deg2rad(longitude)
-    elevations_rad, azimuths_rad = analemma_rad(point_of_view, latitude_rad, longitude_rad, hour_of_the_day)
+    elevations_rad, azimuths_rad = analemma_rad(celestial_body, latitude_rad, longitude_rad, hour_of_the_day)
     elevations = [cv.rad2deg(el_rad) for el_rad in elevations_rad]
     azimuths = [cv.rad2deg(az_rad) for az_rad in azimuths_rad]
     return elevations, azimuths
 
 
-def analemma_rad(point_of_view, latitude, longitude, hour_of_the_day):
-    hour, minute, second = cv.hour2hms(hour_of_the_day)
-    date = dt.datetime(2018, 1, 1, hour, minute, second)
-    time = point_of_view.time_coordinate(date)
-    one_day = point_of_view.one_day
-
+def analemma_rad(celestial_body, latitude, longitude, hour_of_the_day):
+    initial_midnight = dt.datetime(2000, 1, 1, 0, 0, 0)
+    one_day = celestial_body.solar_day_duration
+    fractional_day = hour_of_the_day / 24 * one_day
+    initial_time = celestial_body.time_coordinate(initial_midnight) + fractional_day
     elevations = []
     azimuths = []
-    for d in range(point_of_view.days_per_revolution + 1):
-        el, az = point_of_view.horizontal_coordinates(latitude, longitude, time)
-        elevations.append(el)
-        azimuths.append(az)
-        time = time + one_day
+    observation_times = [initial_time + n * one_day for n in range(celestial_body.days_per_revolution + 1)]
+    for t in observation_times:
+        e, a = celestial_body.horizontal_coordinates(latitude, longitude, t)
+        elevations.append(e)
+        azimuths.append(a)
 
     return elevations, azimuths

@@ -1,14 +1,15 @@
 import analemma as an
-import bodies as pov
+import bodies
 
 
 def main():
-    print("This is Analemma v0.7.0")
-    an.plot_analemma_study(pov.SunFromEarth(), "Earth", 51.477, 0, "Greenwich")
-    an.plot_analemma_study(pov.SunFromCircularEarth(), "Circular Earth", 51.477, 0, "Greenwich")
-    an.plot_analemma_study(pov.SunFromVerticalEarth(), "Vertical Earth", 51.477, 0, "Greenwich")
-    an.plot_analemma_study(pov.SunFromCircularVerticalEarth(), "Vertical Circular Earth", 51.477, 0, "Greenwich")
-    an.plot_analemma_study(pov.SunFromMars(), "Mars", 4.59, 137.44, "Curiosity")
+    print("This is Analemma v0.7.0.")
+    an.plot_analemma_study(bodies.SunFromEarth(), "Earth", 51.477, 0, "Greenwich")
+    an.plot_analemma_study(bodies.SunFromCircularEarth(), "Circular Earth", 51.477, 0, "Greenwich")
+    an.plot_analemma_study(bodies.SunFromVerticalEarth(), "Vertical Earth", 51.477, 0, "Greenwich")
+    an.plot_analemma_study(bodies.SunFromCircularVerticalEarth(), "Vertical Circular Earth", 51.477, 0, "Greenwich")
+    an.plot_analemma_study(bodies.SunFromMars(), "Mars", 4.59, 137.44, "Curiosity")
+    an.plot_analemma_study(bodies.SunFromMars(), "Mars", 19.13, 0, "Pathfinder")
 
 
 if __name__ == "__main__":
