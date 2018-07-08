@@ -1,7 +1,7 @@
-import numpy as np
+import math
 
-rad_per_deg = np.pi / 180
-deg_per_rad = 180 / np.pi
+rad_per_deg = math.pi / 180
+deg_per_rad = 180 / math.pi
 minutes_per_hour = 60
 seconds_per_hour = 3600
 seconds_per_minute = 60
@@ -17,7 +17,7 @@ def deg2rad(a):
 
 
 def hour2hms(h):
-    hour = int(np.floor(h))
+    hour = int(math.floor(h))
     minute = int((h % 1) * minutes_per_hour)
     second = int(((h // 60) % 1) * seconds_per_hour)
     return hour, minute, second
@@ -28,4 +28,4 @@ def seconds2days(s):
 
 
 def hours2rad(h):
-    return h / 24 * 2 * np.pi
+    return h / 24 * 2 * math.pi

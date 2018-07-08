@@ -1,6 +1,6 @@
 import datetime as dt
 import conversions as cv
-import numpy as np
+import math as ma
 
 
 class BodyFromPov:
@@ -19,7 +19,7 @@ class SunFromPlanet(BodyFromPov):
         self.revolution_speed = revolution_speed
         self.initial_longitude = initial_longitude
         self.solar_day_duration = solar_day_duration
-        self.days_per_revolution = int(np.floor(1 / cv.rad2deg(self.revolution_speed) * 360) + 1)
+        self.days_per_revolution = int(ma.floor(1 / cv.rad2deg(self.revolution_speed) * 360) + 1)
 
     def horizontal_coordinates(self, latitude, longitude, time):
         """Return the position of the sun in the horizontal coordinates system."""
@@ -28,7 +28,7 @@ class SunFromPlanet(BodyFromPov):
         declination, right_ascension = self.ecliptic2equatorial(sun_latitude, sun_longitude, obliquity)
         teq = self.equation_time(time)
         local_days = time / self.solar_day_duration
-        hour_angle = np.pi - (cv.hours2rad(local_days * 24 - 12)) + teq
+        hour_angle = ma.pi - (cv.hours2rad(local_days * 24 - 12)) + teq
         elevation, azimuth = self.equatorial2horizontal(latitude, longitude, declination, hour_angle)
         return elevation, azimuth
 
@@ -36,22 +36,22 @@ class SunFromPlanet(BodyFromPov):
         sun_latitude, sun_longitude = self.ecliptic_coordinates(time)
         obliquity = self.obliquity(time)
         _, right_ascension = self.ecliptic2equatorial(sun_latitude, sun_longitude, obliquity)
-        teq = (self.mean_longitude(time) - right_ascension) % (2 * np.pi)
+        teq = (self.mean_longitude(time) - right_ascension) % (2 * ma.pi)
         return teq
 
     def mean_longitude(self, time):
-        return (self.revolution_speed * time + self.initial_longitude) % (2 * np.pi)
+        return (self.revolution_speed * time + self.initial_longitude) % (2 * ma.pi)
 
     @staticmethod
     def equatorial2horizontal(lat, _, decl, h):
-        elevation = np.arcsin(np.sin(lat) * np.sin(decl) + np.cos(lat) * np.cos(decl) * np.cos(h))
-        azimuth = np.pi - np.arctan2(np.sin(h), np.cos(h) * np.sin(lat) - np.tan(decl) * np.cos(lat))
+        elevation = ma.asin(ma.sin(lat) * ma.sin(decl) + ma.cos(lat) * ma.cos(decl) * ma.cos(h))
+        azimuth = ma.pi - ma.atan2(ma.sin(h), ma.cos(h) * ma.sin(lat) - ma.tan(decl) * ma.cos(lat))
         return elevation, azimuth
 
     @staticmethod
     def ecliptic2equatorial(lat, long, obl):
-        declination = np.arcsin(np.sin(lat) * np.cos(obl) + np.cos(lat) * np.sin(obl) * np.sin(long)) % (2 * np.pi)
-        right_ascension = np.arctan2(np.sin(long) * np.cos(obl) - np.tan(lat) * np.sin(obl), np.cos(long))
+        declination = ma.asin(ma.sin(lat) * ma.cos(obl) + ma.cos(lat) * ma.sin(obl) * ma.sin(long)) % (2 * ma.pi)
+        right_ascension = ma.atan2(ma.sin(long) * ma.cos(obl) - ma.tan(lat) * ma.sin(obl), ma.cos(long))
         return declination, right_ascension
 
 
@@ -67,9 +67,9 @@ class SunFromSimplePlanet(SunFromPlanet):
 
     def ecliptic_coordinates(self, time):
         latitude = 0
-        mean_anomaly = (self.mean_anomaly_speed * time + self.initial_mean_anomaly) % (2 * np.pi)
+        mean_anomaly = (self.mean_anomaly_speed * time + self.initial_mean_anomaly) % (2 * ma.pi)
         mean_longitude = self.mean_longitude(time)
-        longitude = (mean_longitude + self.k1 * np.sin(mean_anomaly) + self.k2 * np.sin(2 * mean_anomaly)) % (2 * np.pi)
+        longitude = (mean_longitude + self.k1 * ma.sin(mean_anomaly) + self.k2 * ma.sin(2 * mean_anomaly)) % (2 * ma.pi)
         return latitude, longitude
 
     def obliquity(self, time):
@@ -92,17 +92,17 @@ class SunFromEarth(SunFromPlanet):
         latitude = 0
         a = cv.deg2rad(0.98560028)
         b = cv.deg2rad(357.529)
-        mean_anomaly = (a * time + b) % (2 * np.pi)
+        mean_anomaly = (a * time + b) % (2 * ma.pi)
         a = cv.deg2rad(1.915)
         b = cv.deg2rad(0.020)
         mean_longitude = self.mean_longitude(time)
-        longitude = (mean_longitude + a * np.sin(mean_anomaly) + b * np.sin(2 * mean_anomaly)) % (2 * np.pi)
+        longitude = (mean_longitude + a * ma.sin(mean_anomaly) + b * ma.sin(2 * mean_anomaly)) % (2 * ma.pi)
         return latitude, longitude
 
     def obliquity(self, time):
         a = cv.deg2rad(0.00000036)
         b = cv.deg2rad(23.439)
-        return (a * time + b) % (2 * np.pi)
+        return (a * time + b) % (2 * ma.pi)
 
     @staticmethod
     def time_coordinate(date):
