@@ -50,17 +50,17 @@ class TestEquatorial2Horizontal(unittest.TestCase):
         self.body = bodies.SunFromPlanet(cv.deg2rad(0.98564736), 0, 1)
         self.precision = 0.01
 
-    def test_equatorial2horizontal_0(self):
+    def test_equatorial2horizontal_1(self):
         elv, az = self.body.equatorial2horizontal(0, 0, 0, 0)
         self.assertAlmostEqual(elv, math.pi / 2, delta=self.precision)
         self.assertAlmostEqual(az, math.pi, delta=self.precision)
 
-    def test_equatorial2horizontal_1(self):
+    def test_equatorial2horizontal_2(self):
         elv, az = self.body.equatorial2horizontal(0, 0, math.pi / 2, 0)
         self.assertAlmostEqual(elv, 0, delta=self.precision)
         self.assertAlmostEqual(az, 0, delta=self.precision)
 
-    def test_equatorial2horizontal_2(self):
+    def test_equatorial2horizontal_3(self):
         elv, az = self.body.equatorial2horizontal(math.pi / 4, 0, 0, math.pi)
         self.assertAlmostEqual(elv, - math.pi/4, delta=self.precision)
         self.assertAlmostEqual(az, 0, delta=self.precision)
