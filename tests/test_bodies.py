@@ -20,26 +20,21 @@ class TestEcliptic2Equatorial(unittest.TestCase):
         self.assertAlmostEqual(ra, math.pi, delta=self.precision)
 
     def test_ecliptic2equatorial_3(self):
-        dec, ra = self.body.ecliptic2equatorial(0, math.pi, math.pi/4)
-        self.assertAlmostEqual(dec, 0, delta=self.precision)
-        self.assertAlmostEqual(ra, math.pi, delta=self.precision)
-
-    def test_ecliptic2equatorial_4(self):
         dec, ra = self.body.ecliptic2equatorial(0, math.pi/2, math.pi/4)
         self.assertAlmostEqual(dec, math.pi/4, delta=self.precision)
         self.assertAlmostEqual(ra, math.pi/2, delta=self.precision)
 
-    def test_ecliptic2equatorial_5(self):
+    def test_ecliptic2equatorial_4(self):
         dec, ra = self.body.ecliptic2equatorial(0, 3 * math.pi / 2, math.pi / 4)
         self.assertAlmostEqual(dec, 7 * math.pi / 4, delta=self.precision)
         self.assertAlmostEqual(ra, - math.pi / 2, delta=self.precision)
 
-    def test_ecliptic2equatorial_6(self):
+    def test_ecliptic2equatorial_5(self):
         dec, ra = self.body.ecliptic2equatorial(- math.pi / 4, math.pi / 2, math.pi / 4)
         self.assertAlmostEqual(dec, 0, delta=self.precision)
         self.assertAlmostEqual(ra, math.pi / 2, delta=self.precision)
 
-    def test_ecliptic2equatorial_7(self):
+    def test_ecliptic2equatorial_6(self):
         dec, ra = self.body.ecliptic2equatorial(math.pi / 4, 3 * math.pi / 2, math.pi / 4)
         self.assertAlmostEqual(dec, 0, delta=self.precision)
         self.assertAlmostEqual(ra, - math.pi / 2, delta=self.precision)
@@ -64,6 +59,11 @@ class TestEquatorial2Horizontal(unittest.TestCase):
         elv, az = self.body.equatorial2horizontal(math.pi / 4, 0, 0, math.pi)
         self.assertAlmostEqual(elv, - math.pi/4, delta=self.precision)
         self.assertAlmostEqual(az, 0, delta=self.precision)
+
+    def test_equatorial2horizontal_4(self):
+        elv, az = self.body.equatorial2horizontal(math.pi, 0, 0, math.pi)
+        self.assertAlmostEqual(elv, math.pi / 2, delta=self.precision)
+        self.assertAlmostEqual(az, math.pi / 4, delta=self.precision)
 
 
 if __name__ == '__main__':
