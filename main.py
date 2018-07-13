@@ -3,7 +3,7 @@ import bodies
 
 
 def main():
-    print("This is Analemma v0.9.0.")
+    print("This is Analemma v1.0.0")
     an.plot_analemma_study(bodies.SunFromEarth(), "Earth", 51.477, 0, "Greenwich")
     an.plot_analemma_study(bodies.SunFromCircularEarth(), "Circular Earth", 51.477, 0, "Greenwich")
     an.plot_analemma_study(bodies.SunFromVerticalEarth(), "Vertical Earth", 51.477, 0, "Greenwich")
