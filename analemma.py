@@ -5,6 +5,7 @@ import numpy as np
 
 
 def plot_analemma_study(body, body_name, special_place_lat, special_place_long, special_place_name):
+    """Plot analemmas at different latitudes and hours for a given body."""
     # Data
     general_long = 0
     hours_of_the_day = [9, 12, 15]
@@ -34,6 +35,7 @@ def plot_analemma_study(body, body_name, special_place_lat, special_place_long, 
 
 
 def plot_analemma(axis, elevations, azimuths, title):
+    """Plot an analemma from elevation and azimuth data."""
     axis.plot(azimuths, elevations, '.')
     axis.lines[-1].set_markersize(0.2)
     axis.set_xlabel("Azimuth (°)")
@@ -47,6 +49,7 @@ def plot_analemma(axis, elevations, azimuths, title):
 
 
 def analemma_list(celestial_body, latitude, longitude, hours_of_the_day):
+    """Return analemmas data at a given place for different hours of the day."""
     elevations_list = []
     azimuths_list = []
     for h in hours_of_the_day:
@@ -57,6 +60,7 @@ def analemma_list(celestial_body, latitude, longitude, hours_of_the_day):
 
 
 def analemma(celestial_body, latitude, longitude, hour_of_the_day):
+    """Return analemma data at a given place for a given hour of the day."""
     latitude_rad = cv.deg2rad(latitude)
     longitude_rad = cv.deg2rad(longitude)
     elevations_rad, azimuths_rad = analemma_rad(celestial_body, latitude_rad, longitude_rad, hour_of_the_day)
@@ -66,6 +70,7 @@ def analemma(celestial_body, latitude, longitude, hour_of_the_day):
 
 
 def analemma_rad(celestial_body, latitude, longitude, hour_of_the_day):
+    """Return analemma data at a given place for a given hour of the day (radian version)."""
     initial_midnight = dt.datetime(2000, 1, 1, 0, 0, 0)
     one_day = celestial_body.solar_day_duration
     fractional_day = hour_of_the_day / 24 * one_day

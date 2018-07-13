@@ -3,12 +3,8 @@ import conversions as cv
 import math as ma
 
 
-class BodyFromPov:
-    def horizontal_coordinates(self, latitude, longitude, time):
-        raise NotImplementedError
-
-
-class SunFromPlanet(BodyFromPov):
+class SunFromPlanet:
+    """General interfaces for models of the sun viewed from a planet."""
     def ecliptic_coordinates(self, time):
         raise NotImplementedError
 
@@ -56,6 +52,7 @@ class SunFromPlanet(BodyFromPov):
 
 
 class SunFromSimplePlanet(SunFromPlanet):
+    """Configurable simplified model of the Sun viewed from a planet."""
     def __init__(self, revolution_speed, initial_longitude, solar_day_duration,
                  mean_obliquity, mean_anomaly_speed, initial_mean_anomaly, k1, k2):
         super().__init__(revolution_speed, initial_longitude, solar_day_duration)
@@ -85,6 +82,7 @@ class SunFromSimplePlanet(SunFromPlanet):
 
 
 class SunFromEarth(SunFromPlanet):
+    """Precise model of the Sun viewed from the Earth (about 0.02° accuracy)."""
     def __init__(self):
         super().__init__(cv.deg2rad(0.98564736), cv.deg2rad(280.459), 1)
 
@@ -114,6 +112,7 @@ class SunFromEarth(SunFromPlanet):
 
 
 class SunFromCircularEarth(SunFromSimplePlanet):
+    """Model of the sun viewed from a planet similar to Earth, but with a circular orbit."""
     def __init__(self):
         revolution_speed = cv.deg2rad(0.98564736)
         initial_longitude = cv.deg2rad(280.459)
@@ -128,6 +127,7 @@ class SunFromCircularEarth(SunFromSimplePlanet):
 
 
 class SunFromEllipticEarth(SunFromSimplePlanet):
+    """Simplified model of the Sun viewed from the Earth (constant obliquity)."""
     def __init__(self):
         revolution_speed = cv.deg2rad(0.98564736)
         initial_longitude = cv.deg2rad(280.459)
@@ -142,6 +142,7 @@ class SunFromEllipticEarth(SunFromSimplePlanet):
 
 
 class SunFromVerticalEarth(SunFromSimplePlanet):
+    """Model of the Sun viewed from a planet similar to Earth, but with zero obliquity."""
     def __init__(self):
         revolution_speed = cv.deg2rad(0.98564736)
         initial_longitude = cv.deg2rad(280.459)
@@ -156,6 +157,7 @@ class SunFromVerticalEarth(SunFromSimplePlanet):
 
 
 class SunFromCircularVerticalEarth(SunFromSimplePlanet):
+    """Model of the Sun viewed from a planet similar to Earth, but with a circular orbit and zero obliquity."""
     def __init__(self):
         revolution_speed = cv.deg2rad(0.98564736)
         initial_longitude = cv.deg2rad(280.459)
@@ -170,6 +172,7 @@ class SunFromCircularVerticalEarth(SunFromSimplePlanet):
 
 
 class SunFromMars(SunFromSimplePlanet):
+    """Simple model of the Sun viewed from planet Mars."""
     def __init__(self):
         revolution_speed = cv.deg2rad(0.52403840)
         initial_longitude = cv.deg2rad(270.3863)
